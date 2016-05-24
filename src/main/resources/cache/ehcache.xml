@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false"
+	monitoring="autodetect" dynamicConfig="false">
+	<diskStore path="java.io.tmpdir/spi/app" />
+
+	<!--cache Distribute Config
+	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=automatic, multicastGroupAddress=${ehcache.multicastGroupAddress},multicastGroupPort=${ehcache.multicastGroupPort},hostName=${ehcache.rmi.localhost}, timeToLive=1" />
+
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="socketTimeoutMillis=120000,hostName=${ehcache.rmi.localhost}" />
+    -->
+    <!-- 
+	<cache name="sessionCache" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="100000"
+		timeToIdleSeconds="185" timeToLiveSeconds="0" diskPersistent="false"
+		memoryStoreEvictionPolicy="LRU">
+		<cacheEventListenerFactory
+			class="com.app.cache.BeanCacheEventFactory"
+			properties="bean=expireCacheEventListener" />
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+	</cache> -->
+	
+	<cache name="contentList" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="content" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="channel" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<!-- cache model for one day -->
+	<cache name="model" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="86400" timeToLiveSeconds="86400"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="app" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="cardpage" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="memberpage" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="valcode" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="1800" timeToLiveSeconds="1800"
+		diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="ChannelIdCache" maxElementsInMemory="1000000" eternal="false"
+		overflowToDisk="true" diskPersistent="true" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="AcsChannelIdCache" maxElementsInMemory="1000000" eternal="false"
+		overflowToDisk="true" diskPersistent="true" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="msg" maxElementsInMemory="10" eternal="false" timeToLiveSeconds="1800"
+		overflowToDisk="true" diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+	
+	<cache name="defensestatus" maxElementsInMemory="100000" eternal="false"
+		overflowToDisk="false"  diskPersistent="false" memoryStoreEvictionPolicy="LFU">
+	</cache>
+		
+</ehcache>

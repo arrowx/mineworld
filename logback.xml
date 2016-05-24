@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	scan:true|false if true,open Automatically reloading configuration file
+	scanPeriod:Values can be specified in units of milliseconds, seconds, minutes or hours
+-->
+<configuration scan="true" scanPeriod="30 seconds">
+	<substitutionProperty name="log.base" value="logs" />
+	<substitutionProperty name="log.name" value="app" />
+	<substitutionProperty name="log.accessname" value="access" />
+	<substitutionProperty name="log.errorname" value="error" />
+	<jmxConfigurator />
+	
+	<appender name="logfile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}/${log.name}.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>
+				${log.base}/${log.name}-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 10MB -->
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%date [%thread] %-5level %logger{80} - %msg%n
+			</pattern>
+		</layout>
+		
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->  
+	        <level>ERROR</level>  
+	        <onMatch>DENY</onMatch>  
+	        <onMismatch>ACCEPT</onMismatch>  
+    	</filter>  
+	</appender>
+	
+	<appender name="accesslogfile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}/${log.accessname}.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>
+				${log.base}/${log.accessname}-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 10MB -->
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				[%thread] - %msg%n
+			</pattern>
+		</layout>
+		
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->  
+	        <level>DEBUG</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+    	</filter>  
+	</appender>
+	
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>GBK</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<appender name="errorfile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}/${log.errorname}.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>
+				${log.base}/${log.errorname}-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 10MB -->
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%date [%thread] %-5level %logger{80} - %msg%n
+			</pattern>
+		</layout>
+		
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->  
+	        <level>ERROR</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+    	</filter>  
+	</appender>
+	
+	<logger name="com.temobi">
+		<level value="INFO" />
+	</logger>
+	
+	<logger name="com.app" additivity="true">
+		<level value="INFO" />
+	</logger>
+	
+	<logger name="com.app.filter.AccessLogFilter" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="accesslogfile" />
+	</logger>
+	
+	<!-- 打印集群缓存信息 -->
+	<logger name="net.sf.ehcache">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="net.sf.ehcache.distribution">
+		<level value="INFO" />
+	</logger>
+
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="logfile" />
+		<appender-ref ref="errorfile" />
+		<!-- appender-ref ref="accesslogfile" / -->
+	</root>
+</configuration>
+
